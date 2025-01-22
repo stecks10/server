@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                          // Define o nível do JavaScript gerado.
+    "module": "CommonJS",                        // Especifica o sistema de módulos.
+    "strict": true,                              // Ativa todas as verificações de tipo estritas.
+    "esModuleInterop": true,                     // Garante a compatibilidade com módulos ES6.
+    "skipLibCheck": true,                        // Ignora a verificação de tipos em arquivos de definição.
+    "forceConsistentCasingInFileNames": true,    // Garante o uso consistente de maiúsculas/minúsculas em nomes de arquivos.
+    "moduleResolution": "Node",                 // Configura como o TypeScript resolve módulos.
+    "outDir": "./dist",                          // Diretório de saída para os arquivos compilados.
+    "rootDir": "./src",                          // Diretório raiz dos arquivos de entrada.
+    "resolveJsonModule": true,                   // Permite importar arquivos JSON.
+    "isolatedModules": true                      // Garante que cada arquivo seja tratado como um módulo isolado.
+  },
+  "include": ["src/**/*"],                       // Inclui todos os arquivos no diretório src.
+  "exclude": ["node_modules", "dist"]           // Exclui node_modules e arquivos compilados.
+}
