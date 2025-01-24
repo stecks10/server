@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { FastifyPluginAsync } from "fastify";
-import { getWeekPendingGoals } from "../../functions/get-week-pending-goals"; // Função que você precisa implementar
+import { getWeekPendingGoals } from "../../functions/get-week-pending-goals";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 
 export const pendingGoalsRoute: FastifyPluginAsync = async (fastify) => {
@@ -16,7 +16,7 @@ export const pendingGoalsRoute: FastifyPluginAsync = async (fastify) => {
                 title: z.string(),
                 desiredWeeklyFrequency: z.number().int().min(1).max(7),
                 currentWeeklyProgress: z.number().int().min(0),
-                goalCompletionsCounts: z.number().int().min(0), // Schema esperado
+                goalCompletionsCounts: z.number().int().min(0),
               })
             ),
           }),
