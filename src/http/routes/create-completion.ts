@@ -1,10 +1,9 @@
-import z from "zod";
-import type { FastifyPluginAsync } from "fastify";
+import { z } from "zod";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { createGoalCompletion } from "../../functions/create-goal-completion";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
 
-export const createCompletionRoute: FastifyPluginAsync = async (fastify) => {
-  fastify.withTypeProvider<ZodTypeProvider>().post(
+export const createCompletionRoute: FastifyPluginAsyncZod = async (app) => {
+  app.post(
     "/completions",
     {
       schema: {
@@ -17,12 +16,8 @@ export const createCompletionRoute: FastifyPluginAsync = async (fastify) => {
       const { goalId } = request.body;
 
       await createGoalCompletion({
-        goalId: goalId,
+        goalId,
       });
-
-      return {
-        message: `Conclusão da meta com ID ${goalId} criada com sucesso!`,
-      };
     }
   );
 };

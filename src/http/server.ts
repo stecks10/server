@@ -1,16 +1,12 @@
 import fastify from "fastify";
-import { z } from "zod";
-
 import {
   serializerCompiler,
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-
-import { createGoalCompletion } from "../functions/create-goal-completion";
 import { createGoalRoute } from "./routes/create-goal";
 import { createCompletionRoute } from "./routes/create-completion";
-import { pendingGoalsRoute } from "./routes/get-pending-goals";
+import { getPendingGoalsRoute } from "./routes/get-pending-goals";
 import { getWeekSummaryRoute } from "./routes/get-week-summary";
 import fastifyCors from "@fastify/cors";
 
@@ -25,7 +21,7 @@ app.setSerializerCompiler(serializerCompiler);
 
 app.register(createGoalRoute);
 app.register(createCompletionRoute);
-app.register(pendingGoalsRoute);
+app.register(getPendingGoalsRoute);
 app.register(getWeekSummaryRoute);
 
 app
@@ -33,5 +29,5 @@ app
     port: 3333,
   })
   .then(() => {
-    // console.log("HTTP server running on http://localhost:3333");
+    console.log("HTTP server running!");
   });

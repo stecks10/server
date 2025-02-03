@@ -1,10 +1,9 @@
 import { z } from "zod";
-import type { FastifyPluginAsync } from "fastify";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { createGoal } from "../../functions/create-goal";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
 
-export const createGoalRoute: FastifyPluginAsync = async (fastify) => {
-  fastify.withTypeProvider<ZodTypeProvider>().post(
+export const createGoalRoute: FastifyPluginAsyncZod = async (app) => {
+  app.post(
     "/goals",
     {
       schema: {
@@ -21,8 +20,6 @@ export const createGoalRoute: FastifyPluginAsync = async (fastify) => {
         title,
         desiredWeeklyFrequency,
       });
-
-      return { message: "Meta criada com sucesso!" };
     }
   );
 };
