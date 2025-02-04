@@ -1,10 +1,42 @@
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import type { FastifyPluginAsync } from "fastify";
 import { getWeekSummary } from "../../functions/get-week-summary";
+import { z } from "zod";
 
-export const getWeekSummaryRoute: FastifyPluginAsyncZod = async (app) => {
-  app.get("/summary", async () => {
-    const { summary } = await getWeekSummary();
+const WeekSummarySchema = z.object({
+  completed: z.number(),
+  total: z.number(),
+  goalsPerDay: z.record(
+    z.string(),
+    z.array(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        completedAt: z.string(),
+      })
+    )
+  ),
+});
 
-    return { summary };
-  });
+export const getWeekSummaryRoute: FastifyPluginAsync = async (app) => {
+  app.get(
+    "/summary",
+    {
+      schema: {
+        tags: ["goals"],
+        description: "Get week summary",
+        response: {
+          200: WeekSummarySchema,
+        },
+      },
+    },
+    async () => {
+      try {
+        const summary = await getWeekSummary();
+
+        return summary;
+      } catch (error) {
+        return { message: "Failed to fetch week summary" };
+      }
+    }
+  );
 };
