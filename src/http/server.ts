@@ -13,6 +13,8 @@ import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 
+import { authenticateFromGithubRoute } from "./routes/authenticate-from-github";
+
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.register(fastifyCors, {
@@ -39,6 +41,7 @@ app.register(createGoalRoute);
 app.register(createCompletionRoute);
 app.register(getPendingGoalsRoute);
 app.register(getWeekSummaryRoute);
+app.register(authenticateFromGithubRoute);
 
 app
   .listen({
