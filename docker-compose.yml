@@ -1,11 +1,32 @@
-name: pocket-js-server
+version: '3'
 
 services:
   pg:
     image: bitnami/postgresql:13.16.0
     ports:
-      - "5433:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=inorbit
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d
+    networks:
+      - test_network
+
+  pg_test:
+    image: bitnami/postgresql:13.16.0
+    ports:
+      - '5433:5432' 
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=inorbit_test
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d
+    networks:
+      - test_network
+
+networks:
+  test_network:
+    driver: bridge
