@@ -16,6 +16,7 @@ import { fastifyJwt } from "fastify-jwt";
 
 import { authenticateFromGithubRoute } from "./routes/authenticate-from-github";
 import { env } from "../env";
+import { getProfileRoute } from "./routes/get-profile";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -48,6 +49,7 @@ app.register(createCompletionRoute);
 app.register(getPendingGoalsRoute);
 app.register(getWeekSummaryRoute);
 app.register(authenticateFromGithubRoute);
+app.register(getProfileRoute);
 
 app
   .listen({
