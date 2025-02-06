@@ -2,6 +2,11 @@ import type { FastifyPluginAsync } from "fastify";
 import { getWeekSummary } from "../../functions/get-week-summary";
 import { z } from "zod";
 import { authenticateUserHook } from "../hooks/authenticate-user";
+import dayjs from "dayjs";
+
+interface QueryString {
+  weekStart: Date;
+}
 
 const WeekSummarySchema = z.object({
   completed: z.number(),
@@ -18,6 +23,13 @@ const WeekSummarySchema = z.object({
   ),
 });
 
+const QueryStringSchema = z.object({
+  weekStart: z.coerce
+    .date()
+    .optional()
+    .default(dayjs().startOf("week").toDate()),
+});
+
 export const getWeekSummaryRoute: FastifyPluginAsync = async (app) => {
   app.get(
     "/summary",
@@ -26,6 +38,7 @@ export const getWeekSummaryRoute: FastifyPluginAsync = async (app) => {
       schema: {
         tags: ["goals"],
         description: "Get week summary",
+        querystring: QueryStringSchema,
         response: {
           200: WeekSummarySchema,
         },
@@ -33,9 +46,12 @@ export const getWeekSummaryRoute: FastifyPluginAsync = async (app) => {
     },
     async (request) => {
       const userId = request.user.sub;
+
+      const { weekStart } = request.query as QueryString;
       try {
         const summary = await getWeekSummary({
           userId,
+          weekStart,
         });
 
         return summary;
