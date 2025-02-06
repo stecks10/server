@@ -3,7 +3,7 @@ import { db } from "../../src/db";
 
 import { goalCompletions } from "../../src/db/schema";
 
-export async function makeUser(
+export async function makeGoalCompletion(
   override: Partial<InferSelectModel<typeof goalCompletions>> &
     Pick<InferSelectModel<typeof goalCompletions>, "goalId">
 ) {

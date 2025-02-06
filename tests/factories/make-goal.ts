@@ -4,7 +4,7 @@ import { db } from "../../src/db";
 import { goals } from "../../src/db/schema";
 import { faker } from "@faker-js/faker";
 
-export async function makeUser(
+export async function makeGoal(
   override: Partial<InferSelectModel<typeof goals>> &
     Pick<InferSelectModel<typeof goals>, "userId">
 ) {
