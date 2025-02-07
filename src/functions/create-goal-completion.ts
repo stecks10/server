@@ -1,6 +1,6 @@
 import { and, count, eq, gte, lte } from "drizzle-orm";
 import { db } from "../db";
-import { goalCompletions, goals } from "../db/schema";
+import { goalCompletions, goals, users } from "../db/schema";
 import dayjs from "dayjs";
 import { sql } from "drizzle-orm";
 
@@ -53,13 +53,27 @@ export async function createGoalCompletion({
     throw new Error("Cannot complete goal more times than expected");
   }
 
-  const insertResult = await db
-    .insert(goalCompletions)
-    .values({ goalId })
-    .returning();
-  const goalCompletion = insertResult[0];
+  const isLastCompletionFromGoal =
+    completionCount + 1 === desiredWeeklyFrequency;
+  const earnedExperience = isLastCompletionFromGoal ? 7 : 5;
+
+  const goalCompletion = await db.transaction(async (tx) => {
+    const [goalCompletion] = await db
+      .insert(goalCompletions)
+      .values({ goalId })
+      .returning();
+
+    await db
+      .update(users)
+      .set({
+        experience: sql/*sql*/ `${users.experience} + ${earnedExperience}`,
+      })
+      .where(eq(users.id, userId));
+
+    return goalCompletion;
+  });
 
   return {
-    goalCompletion,
+    goalCompletion: goalCompletion,
   };
 }

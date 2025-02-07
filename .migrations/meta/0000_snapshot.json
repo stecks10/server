@@ -1,5 +1,5 @@
 {
-  "id": "71235351-23d3-4af5-9e8e-6467fc866e22",
+  "id": "1485cfa8-a2d8-456e-97d2-c2540ce21cd2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -135,6 +135,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "experience": {
+          "name": "experience",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
         },
         "external_account_id": {
           "name": "external_account_id",

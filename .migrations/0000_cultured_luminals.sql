@@ -17,6 +17,7 @@ CREATE TABLE "users" (
 	"name" text,
 	"email" text,
 	"avatar_url" text NOT NULL,
+	"experience" integer DEFAULT 0 NOT NULL,
 	"external_account_id" integer NOT NULL,
 	CONSTRAINT "users_external_account_id_unique" UNIQUE("external_account_id")
 );
