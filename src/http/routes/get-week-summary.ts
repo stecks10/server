@@ -38,6 +38,7 @@ export const getWeekSummaryRoute: FastifyPluginAsync = async (app) => {
       schema: {
         tags: ["goals"],
         description: "Get week summary",
+        operationId: "getWeekSummary",
         querystring: QueryStringSchema,
         response: {
           200: WeekSummarySchema,

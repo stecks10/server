@@ -18,6 +18,8 @@ import { authenticateFromGithubRoute } from "./routes/authenticate-from-github";
 import { env } from "../env";
 import { getProfileRoute } from "./routes/get-profile";
 import { getUserExperienceAndLevelRoute } from "./routes/get-user-experience-and-level";
+import { resolve } from "node:path";
+import { writeFile } from "node:fs";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -60,3 +62,20 @@ app
   .then(() => {
     console.log("HTTP server running!");
   });
+
+if (env.NODE_ENV === "development") {
+  console.log("Swagger docs available at http://localhost:3333/docs");
+  const specFile = resolve(__dirname, "../../swagger.json");
+
+  app.ready().then(() => {
+    const spec = JSON.stringify(app.swagger(), null, 2);
+
+    writeFile(specFile, spec, (err) => {
+      if (err) {
+        console.error(`Error writing Swagger spec to ${specFile}:`, err);
+      } else {
+        console.log(`Swagger spec written to ${specFile}`);
+      }
+    });
+  });
+}
