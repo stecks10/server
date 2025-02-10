@@ -10,17 +10,19 @@ interface QueryString {
 
 const WeekSummarySchema = z.object({
   completed: z.number(),
-  total: z.number(),
-  goalsPerDay: z.record(
-    z.string(),
-    z.array(
-      z.object({
-        id: z.string(),
-        title: z.string(),
-        completedAt: z.string(),
-      })
+  total: z.number().nullable(),
+  goalsPerDay: z
+    .record(
+      z.string(),
+      z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          completedAt: z.string(),
+        })
+      )
     )
-  ),
+    .nullable(),
 });
 
 const QueryStringSchema = z.object({
